@@ -208,7 +208,7 @@ plugins:
       reconcile_interval: 60
     kubernetes:
       namespace: !ENV ${KUBE_NAMESPACE:-reviewate}
-      image: reviewate/code-reviewer:1.0.0 # x-release-please-version
+      image: reviewate/code-reviewer:1.1.0 # x-release-please-version
       service_account: !ENV ${KUBE_SERVICE_ACCOUNT:-reviewate}
       timeout: 600
       memory_limit: 2Gi
