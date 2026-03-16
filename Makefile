@@ -51,7 +51,7 @@ compose-test: ## Start database only (for local dev/testing)
 
 # ==================== Docker Build ====================
 REGISTRY ?= reviewate
-VERSION ?= 1.0.0 # x-release-please-version
+VERSION ?= 1.1.0 # x-release-please-version
 
 backend-build: ## Build backend Docker image
 	docker build --platform linux/amd64 -t $(REGISTRY)/backend:$(VERSION) ./backend
