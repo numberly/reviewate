@@ -88,7 +88,7 @@ generate-types: ## Generate TypeScript types from OpenAPI
 	@cd backend && uv run python generate_openapi.py
 	@pnpm exec openapi-ts --input $(CURDIR)/packages/api-types/openapi.json --output $(CURDIR)/packages/api-types --client @hey-api/client-fetch
 	@echo "export { client } from './client.gen';" >> packages/api-types/index.ts
-	@printf '{\n  "name": "@reviewate/api-types",\n  "version": "0.0.1",\n  "type": "module",\n  "main": "./index.ts",\n  "types": "./index.ts",\n  "exports": {\n    ".": "./index.ts",\n    "./client": "./client.gen.ts"\n  },\n  "devDependencies": {\n    "@hey-api/openapi-ts": "^0.88.0"\n  }\n}\n' > packages/api-types/package.json
+	@printf '{\n  "name": "@reviewate/api-types",\n  "version": "0.0.1",\n  "type": "module",\n  "main": "./index.ts",\n  "types": "./index.ts",\n  "exports": {\n    ".": "./index.ts",\n    "./client": "./client.gen.ts"\n  },\n  "devDependencies": {\n    "@hey-api/openapi-ts": "0.94.2"\n  }\n}\n' > packages/api-types/package.json
 	@rm -f packages/api-types/openapi.json
 	@echo "✅ SDK generated in packages/api-types/"
 
