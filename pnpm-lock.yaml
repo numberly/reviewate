@@ -100,7 +100,7 @@ importers:
   packages/api-types:
     devDependencies:
       '@hey-api/openapi-ts':
-        specifier: ^0.94.2
+        specifier: 0.94.2
         version: 0.94.2(magicast@0.5.2)(typescript@5.9.3)
 
   website:
