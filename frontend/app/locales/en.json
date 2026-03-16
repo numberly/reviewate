@@ -1,0 +1,330 @@
+{
+  "common": {
+    "appName": "Reviewate",
+    "review": "Review",
+    "manage": "Manage",
+    "pro": "Pro",
+    "showing": "Showing {start}-{end} of {total}",
+    "perPage": "per page",
+    "dismiss": "Dismiss",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "add": "Add",
+    "remove": "Remove",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "back": "Back",
+    "search": "Search...",
+    "cannotBeUndone": "This action cannot be undone.",
+    "noResults": "No results found",
+    "noResultsDescription": "Try adjusting your search terms."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "pullRequests": "Pull Requests",
+    "repositories": "Repositories",
+    "analytics": "Analytics",
+    "teams": "Teams",
+    "settings": "Settings",
+    "logOut": "Log out",
+    "organizations": "Organizations"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, here's your overview for today.",
+    "viewReports": "View Reports"
+  },
+  "stats": {
+    "activeRepos": "Active Repositories",
+    "avgReviewTime": "Average Review Time",
+    "prsReviewedThisWeek": "PRs Reviewed This Week",
+    "vsLastWeek": "vs last week"
+  },
+  "organizations": {
+    "title": "Organizations",
+    "subtitle": "Manage your connected organizations and sources",
+    "noOrganizations": "No organizations yet",
+    "noOrganizationsDescription": "Connect your GitHub or GitLab organization to start reviewing pull requests.",
+    "addFirst": "Add your first organization",
+    "allOrganizations": "All Organizations",
+    "repos": "{count} repos",
+    "members": "{count} members",
+    "addFromGithub": "Add from GitHub",
+    "addFromGitlab": "Add from GitLab",
+    "sync": "Sync",
+    "syncGithub": "Refresh team members from GitHub organizations",
+    "syncGitlab": "Refresh team members from GitLab groups",
+    "provider": "Provider",
+    "createdAt": "Added on",
+    "viewRepositories": "View Repositories",
+    "installGithubApp": "Install GitHub App",
+    "addGitlabToken": "Add GitLab Token",
+    "gitlabTokenTitle": "Add GitLab Source",
+    "gitlabTokenDescription": "Enter your GitLab Personal Access Token to connect a group or project.",
+    "gitlabTokenPlaceholder": "glpat-xxxxxxxxxxxx",
+    "gitlabTokenLabel": "Access Token",
+    "gitlabUrlLabel": "GitLab URL",
+    "gitlabUrlPlaceholder": "https://gitlab.com",
+    "gitlabAdded": "GitLab source added successfully",
+    "gitlabFailed": "Failed to add GitLab source",
+    "deleted": "Organization removed successfully",
+    "selectOrganization": "Select an organization",
+    "selectOrganizationDescription": "Choose an organization from the list to view and manage its settings.",
+    "deleteConfirmTitle": "Delete Organization",
+    "deleteConfirmMessage": "Are you sure you want to remove this organization? This will delete all associated repositories and settings.",
+    "deleteConfirmWarning": "All repositories and their review history will be permanently deleted.",
+    "tabs": {
+      "general": "General",
+      "repositories": "Repositories",
+      "team": "Team"
+    },
+    "settings": {
+      "general": "General Settings",
+      "displayName": "Display Name",
+      "externalId": "External ID",
+      "reviewSettings": "Review Settings",
+      "automaticReviewTrigger": "Automatic Review Trigger",
+      "automaticReviewTriggerDescription": "When to automatically trigger code reviews",
+      "triggerNone": "Disabled",
+      "triggerCreation": "On PR creation",
+      "triggerCommit": "On new commits",
+      "automaticSummaryTrigger": "Automatic Summary Trigger",
+      "automaticSummaryTriggerDescription": "When to automatically trigger PR summaries",
+      "triggerLabel": "On label (reviewate)",
+      "triggerLabelSummarate": "On label (summarate)",
+      "dangerZone": "Danger Zone",
+      "removeOrganization": "Remove organization",
+      "removeOrganizationDescription": "This will remove the organization and all its data from Reviewate.",
+      "savingSettings": "Saving...",
+      "settingsSaved": "Settings saved",
+      "adminRequired": "Only organization admins can update settings",
+      "saveFailed": "Failed to save settings. Please try again."
+    },
+    "repositories": {
+      "title": "Repositories",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "noRepositories": "No repositories",
+      "noRepositoriesDescription": "This organization has no repositories yet.",
+      "information": "Repository Information",
+      "name": "Name",
+      "platform": "Platform",
+      "url": "URL",
+      "externalId": "External ID",
+      "settingsTitle": "Repository Settings",
+      "settingsDescription": "Override organization defaults for this repository",
+      "inheritFromOrg": "Inherit from organization",
+      "resetToDefaults": "Reset to Organization Defaults",
+      "resetToDefaultsDescription": "Clear all repository-specific settings and inherit from organization",
+      "resetToDefaultsButton": "Reset Settings",
+      "removeRepository": "Remove repository",
+      "removeRepositoryDescription": "This will remove the repository and its settings.",
+      "deleteConfirmTitle": "Delete Repository",
+      "deleteConfirmMessage": "Are you sure you want to remove this repository? This will delete all associated settings and review history.",
+      "deleted": "Repository removed successfully"
+    },
+    "team": {
+      "title": "Team Members",
+      "noMembers": "No members",
+      "noMembersDescription": "This organization has no members synced yet.",
+      "enabled": "Reviews enabled",
+      "disabled": "Reviews disabled",
+      "admin": "Admin",
+      "member": "Member",
+      "linkedAccount": "Linked",
+      "settingsTitle": "Member Settings",
+      "settingsDescription": "Configure how Reviewate interacts with this member's pull requests.",
+      "reviewateEnabled": "Enable Reviewate",
+      "reviewateEnabledDescription": "When enabled, Reviewate will automatically review this member's pull requests.",
+      "adminOnlyMessage": "Only organization admins can modify member settings.",
+      "memberInfo": "Member Information",
+      "accountStatus": "Account Status",
+      "linked": "Linked to Reviewate",
+      "notLinked": "Not linked",
+      "role": "Role"
+    },
+    "linkedRepos": {
+      "title": "Linked Repositories",
+      "description": "Additional repositories pulled during reviews for context (shared libraries, internal packages).",
+      "orgDescription": "These repositories are included in ALL reviews for this organization.",
+      "repoDescription": "These repositories are included IN ADDITION to organization-level linked repos.",
+      "noLinkedRepos": "No linked repositories",
+      "noLinkedReposDescription": "Link external repositories to give the code reviewer context from related codebases.",
+      "addLinkedRepo": "Link Repository",
+      "urlLabel": "Repository URL",
+      "urlPlaceholder": "https://github.com/owner/repo",
+      "branchLabel": "Branch",
+      "branchPlaceholder": "main",
+      "invalidUrl": "Enter a valid GitHub or GitLab repository URL",
+      "adding": "Linking...",
+      "added": "Repository linked successfully",
+      "addFailed": "Failed to link repository",
+      "removed": "Linked repository removed",
+      "removeFailed": "Failed to remove linked repository",
+      "github": "GitHub",
+      "gitlab": "GitLab"
+    }
+  },
+  "pullRequests": {
+    "title": "Pull Requests",
+    "searchPlaceholder": "Search PRs...",
+    "reviewDisabledForAuthor": "Reviews are disabled for {author}",
+    "onlyAuthorCanReview": "Only the PR author can trigger a review",
+    "columns": {
+      "title": "Title",
+      "repo": "Repo",
+      "status": "Status",
+      "date": "Date"
+    },
+    "executions":{
+      "reviewing": "Reviewing",
+      "completed": "Completed",
+      "failed": "Failed",
+      "cancelled": "Cancelled",
+      "need_review": "No review yet"
+    }
+  },
+  "filters": {
+    "allStatuses": "All Statuses",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "allTime": "All Time",
+    "today": "Today",
+    "last7Days": "Last 7 Days",
+    "last30Days": "Last 30 Days",
+    "last90Days": "Last 90 Days",
+    "myPRs": "My PRs",
+    "allPRs": "All PRs"
+  },
+  "accessibility": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account and connected services",
+    "tabs": {
+      "connectedAccounts": "Connected Accounts",
+      "profile": "Profile"
+    },
+    "accounts": {
+      "title": "Connected Accounts",
+      "connected": "Connected",
+      "notConnected": "Not connected",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "disconnected": "{provider} account disconnected",
+      "linked": "{provider} account connected successfully",
+      "disconnectFailed": "Failed to disconnect account. Please try again.",
+      "cannotDisconnectLast": "You cannot disconnect your last connected account.",
+      "lastAccountWarning": "You must have at least one connected account to sign in.",
+      "alreadyLinked": "This provider is already connected to your account.",
+      "accountInUse": "This account is already linked to another user.",
+      "invalidProvider": "Invalid provider specified."
+    },
+    "profile": {
+      "title": "Profile",
+      "email": "Email",
+      "emailDescription": "Your email address for notifications and communication",
+      "displayName": "Display Name",
+      "displayNameDescription": "Derived from your connected accounts",
+      "saved": "Profile saved successfully",
+      "saveFailed": "Failed to save profile. Please try again."
+    },
+    "appearance": "Appearance",
+    "theme": "Theme",
+    "darkMode": "Dark mode",
+    "darkModeDescription": "Switch between light and dark theme",
+    "language": "Language",
+    "languageDescription": "Choose your preferred language",
+    "account": "Account",
+    "viewProfile": "View profile",
+    "signOut": "Sign out"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in with your account to continue"
+    },
+    "continueWithGithub": "Continue with GitHub",
+    "continueWithGitlab": "Continue with GitLab",
+    "continueWithGoogle": "Continue with Google",
+    "redirecting": "Redirecting...",
+    "loginError": "Login failed",
+    "termsNotice": "By continuing, you agree to our Terms of Service and Privacy Policy."
+  },
+  "tour": {
+    "next": "Next",
+    "prev": "Back",
+    "done": "Done",
+    "progress": "{current} of {total}",
+    "replay": "Replay tour",
+    "mobileNotSupported": "The tour is only available on desktop",
+    "welcome": {
+      "title": "Welcome to Reviewate!",
+      "description": "Let us walk you through the key features. This will only take a minute."
+    },
+    "reviewButton": {
+      "title": "Review a Pull Request",
+      "description": "Click the Review button to trigger an AI-powered code review on any pull request."
+    },
+    "prSwitch": {
+      "title": "Filter Your PRs",
+      "description": "Toggle between your own pull requests and all pull requests across your organizations."
+    },
+    "orgSidebar": {
+      "title": "Your Organizations",
+      "description": "Filter the dashboard by organization, or click the settings icon to manage them."
+    },
+    "addOrg": {
+      "title": "Connect Your Repos",
+      "description": "Add an organization from GitHub or GitLab to start reviewing pull requests. Reviewate syncs your repos and team automatically."
+    },
+    "generalSettings": {
+      "title": "Review Triggers",
+      "description": "Configure when Reviewate automatically triggers reviews — on PR creation, new commits, or by label."
+    },
+    "linkedRepos": {
+      "title": "Linked Repositories",
+      "description": "Link external repositories so Reviewate can access code context during reviews — for example, a shared library or a monorepo dependency."
+    },
+    "repositoriesTab": {
+      "title": "Repository Settings",
+      "description": "Each repository can override the organization defaults. Click here to manage per-repo settings."
+    },
+    "teamTab": {
+      "title": "Team Management",
+      "description": "View team members and control who gets automatic reviews. That's the end of the tour!"
+    }
+  },
+  "errors": {
+    "types": {
+      "network_error": "Could not connect to the code hosting platform. Please check your network and try again.",
+      "authentication_failed": "Authentication failed. The access token may have expired.",
+      "not_found": "The repository or pull request could not be found.",
+      "request_failed": "The request to the code hosting platform failed. Please try again.",
+      "invalid_response": "Received an unexpected response from the platform.",
+      "explorer_error": "Failed to download and analyze the source code. Please try again.",
+      "validation_error": "The AI model returned an invalid response. Please try again.",
+      "interrupted": "The review was interrupted before it could complete.",
+      "timeout": "The review timed out. The pull request may be too large.",
+      "container_error": "The review environment encountered an issue. Please try again.",
+      "internal_error": "An unexpected error occurred. Please try again later.",
+      "unknown": "The review failed. Please try again."
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidUrl": "Enter a valid URL",
+    "invalidEmail": "Enter a valid email address",
+    "minLength": "Must be at least {min} characters",
+    "invalidToken": "Enter a valid access token"
+  }
+}

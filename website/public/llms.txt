@@ -1,0 +1,33 @@
+# Reviewate
+
+> AI-powered code review agent that catches real bugs.
+
+Reviewate runs multiple AI agents on every pull request. Every finding is fact-checked against your actual codebase. Open source under AGPL v3.
+
+## Features
+
+- Multi-agent pipeline: Issue Explorer, Analyze (×2 with tools), Synthesizer, Dedup, Fact-Check, Style
+- Fact-checker verifies findings against real code — no hallucinations
+- Works with any LLM: OpenAI, Anthropic, Google, or any OpenAI-compatible API
+- Supports GitHub and GitLab
+- Self-hosted with Docker or Kubernetes
+- Custom review rules per repository
+
+## Links
+
+- Website: https://reviewate.com
+- GitHub: https://github.com/numberly/reviewate
+- Doc: https://reviewate.com/docs
+- Blog: https://reviewate.com/blog
+- Pricing: https://reviewate.com/pricing
+
+## Tech Stack
+
+- Backend: Python, FastAPI, composable api with plugin system
+- Frontend: Nuxt 4, Vue 3, TypeScript, NuxtUI
+- Code Review Agent: Python, Claude Agent SDK
+- Deployment: Docker, Kubernetes
+
+## License
+
+AGPL v3 — free to use, modify, and self-host.

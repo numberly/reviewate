@@ -1,0 +1,106 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "reviewate"
+version = "1.0.0" # x-release-please-version
+description = "AI-powered code reviewer for GitHub and GitLab"
+readme = "README.md"
+authors = [{ name = "Adam Saimi" }]
+license = "AGPL-3.0"
+requires-python = ">=3.14"
+keywords = ["code-review", "ai", "llm", "github", "gitlab", "claude"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "claude-agent-sdk>=0.1.48",
+    "jinja2>=3.1",
+    "pydantic>=2.9.0",
+    "rich>=13.0",
+]
+
+[project.scripts]
+reviewate = "code_reviewer.main:cli_entry"
+
+[project.urls]
+Homepage = "https://reviewate.com"
+Repository = "https://github.com/numberly/reviewate"
+Issues = "https://github.com/numberly/reviewate/issues"
+Documentation = "https://reviewate.com/docs"
+
+[tool.hatch.build]
+include = [
+    "*.py",
+    "agents/**/*.py",
+    "prompts/*.md",
+]
+exclude = [
+    "tests/**",
+]
+
+# pyproject.toml lives inside code_reviewer/, so remap source root
+# into the code_reviewer package in the wheel
+[tool.hatch.build.targets.wheel]
+dev-mode-dirs = [".."]
+
+[tool.hatch.build.targets.wheel.sources]
+"" = "code_reviewer"
+
+[dependency-groups]
+dev = [
+    "pydantic>=2.9.0",
+    "pytest==8.4.2",
+    "pytest-asyncio==1.2.0",
+    "ruff==0.14.1",
+    "mypy==1.18.2",
+    "google-genai>=1.0.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+plugins = ["pydantic.mypy"]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = false
+warn_required_dynamic_aliases = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"

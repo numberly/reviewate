@@ -1,0 +1,231 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run pre-commit hooks
+        uses: pre-commit/action@v3.0.1
+
+  check-api-types:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: uv sync
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate API types
+        run: make generate-types
+
+      - name: Check for uncommitted changes
+        run: git diff --exit-code packages/api-types/ || (echo "API types are out of date. Run 'make generate-types' and commit the result." && exit 1)
+
+  test-code-reviewer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code_reviewer
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Run tests
+        run: uv run pytest -v
+
+  test-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Start services with docker compose
+        run: |
+          cd ..
+          docker compose --profile test up -d
+          docker compose ps
+        env:
+          # Database - matching test_config.yaml expectations
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: reviewate_dev
+          # Security
+          JWT_SECRET_KEY: test-key
+          ENCRYPTION_KEY: WCG0dN_WKfmNvUBp4oV3jq1IhMY0jNoJCzuf1adYQtY=
+          # GitHub (required by compose even if not used in tests)
+          GITHUB_CLIENT_ID: test-github-client-id
+          GITHUB_CLIENT_SECRET: test-github-secret
+          GITHUB_APP_ID: test-app-id
+          GITHUB_WEBHOOK_SECRET: test-webhook-secret
+          # GitLab (required by compose even if not used in tests)
+          GITLAB_CLIENT_ID: test-gitlab-client-id
+          GITLAB_CLIENT_SECRET: test-gitlab-secret
+          GITLAB_WEBHOOK_SECRET: test-webhook-secret
+          # URLs
+          DOMAIN: localhost
+          FRONTEND_URL: http://localhost:3000
+          COOKIE_DOMAIN: localhost
+
+      - name: Run database migrations
+        run: |
+          cd ..
+          docker compose run --rm migrate
+        env:
+          # Database - matching test_config.yaml expectations
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: reviewate_dev
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/reviewate_dev
+          REVIEWATE_CONFIG: /app/configs/local.yaml
+          # Security
+          JWT_SECRET_KEY: test-key
+          ENCRYPTION_KEY: WCG0dN_WKfmNvUBp4oV3jq1IhMY0jNoJCzuf1adYQtY=
+          # GitHub (required by compose even if not used in tests)
+          GITHUB_CLIENT_ID: test-github-client-id
+          GITHUB_CLIENT_SECRET: test-github-secret
+          GITHUB_APP_ID: test-app-id
+          GITHUB_WEBHOOK_SECRET: test-webhook-secret
+          # GitLab (required by compose even if not used in tests)
+          GITLAB_CLIENT_ID: test-gitlab-client-id
+          GITLAB_CLIENT_SECRET: test-gitlab-secret
+          GITLAB_WEBHOOK_SECRET: test-webhook-secret
+          # URLs
+          DOMAIN: localhost
+          FRONTEND_URL: http://localhost:3000
+          COOKIE_DOMAIN: localhost
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Run tests
+        run: uv run pytest -v
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/reviewate_dev
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: |
+          cd ..
+          pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test:run

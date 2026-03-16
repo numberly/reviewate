@@ -1,0 +1,223 @@
+# Reviewate Backend Configuration
+app: reviewate-backend
+environment: development
+
+# ============================================================================
+# Application Options (optional settings)
+# ============================================================================
+
+options:
+  expose_error_details: !ENV ${EXPOSE_ERROR_DETAILS:-true}
+  code_reviewer:
+    anthropic_api_key: !ENV ${ANTHROPIC_API_KEY:-}
+    oauth_token: !ENV ${CLAUDE_CODE_OAUTH_TOKEN:-}
+    anthropic_base_url: !ENV ${REVIEWATE_BASE_URL:-}
+    review_model: !ENV ${REVIEWATE_REVIEW_MODEL:-}
+    utility_model: !ENV ${REVIEWATE_UTILITY_MODEL:-}
+
+  # Feedback loop - learns from user feedback to improve reviews
+  feedback_loop:
+    enabled: false # For now false as the feature hasbn't been fully implemented yet.
+    # Model name for summarization
+    model: !ENV ${FEEDBACK_LOOP_MODEL:-gemini-2.0-flash}
+    # Provider (gemini, anthropic, openai, openrouter)
+    provider: !ENV ${FEEDBACK_LOOP_PROVIDER:-gemini}
+    # API key (optional if set via standard env vars like GEMINI_API_KEY)
+    api_key: !ENV ${FEEDBACK_LOOP_API_KEY:-}
+
+# ============================================================================
+# Plugins Configuration
+# Each plugin can be enabled/disabled with the enabled flag
+# ============================================================================
+
+plugins:
+  # Sentry plugin (error tracking and performance monitoring)
+  sentry:
+    enabled: !ENV ${SENTRY_ENABLED:-false}
+    dsn: !ENV ${SENTRY_DSN:-}
+    environment: !ENV ${ENVIRONMENT:-development}
+    traces_sample_rate: 0.1
+    profiles_sample_rate: 0.1
+
+  # Database plugin (SQLAlchemy engine management)
+  database:
+    enabled: true
+    url: !ENV ${DATABASE_URL}
+    echo: false
+    pool_size: 5
+    max_overflow: 10
+    # AES-256-GCM encryption key for storing sensitive data like GitLab PATs
+    encryption_key: !ENV ${ENCRYPTION_KEY}
+
+  # GitHub Plugin (unified GitHub App for both user login and repository access)
+  github:
+    enabled: !ENV ${GITHUB_ENABLED:-true}
+    # Unified GitHub App configuration
+    app:
+      # User-to-server OAuth (for user login identity)
+      client_id: !ENV ${GITHUB_CLIENT_ID}
+      client_secret: !ENV ${GITHUB_CLIENT_SECRET}
+      authorize_url: !ENV ${GITHUB_AUTHORIZE_URL:-https://github.com/login/oauth/authorize}
+      token_url: !ENV ${GITHUB_TOKEN_URL:-https://github.com/login/oauth/access_token}
+      api_base_url: !ENV ${GITHUB_API_URL:-https://api.github.com}
+      scopes: ["read:user", "user:email", "read:org"]
+      # Installation authentication (for organization repository access)
+      app_id: !ENV ${GITHUB_APP_ID}
+      private_key_path: !ENV ${GITHUB_APP_PRIVATE_KEY_PATH}
+      webhook_secret: !ENV ${GITHUB_WEBHOOK_SECRET}
+      name: !ENV ${GITHUB_APP_NAME}
+
+  # GitLab Plugin (OAuth for user identity only)
+  gitlab:
+    enabled: !ENV ${GITLAB_ENABLED:-true}
+    # OAuth configuration (for user login identity)
+    oauth:
+      client_id: !ENV ${GITLAB_CLIENT_ID}
+      client_secret: !ENV ${GITLAB_CLIENT_SECRET}
+      instance_url: !ENV ${GITLAB_INSTANCE_URL:-https://gitlab.com}
+      api_url: !ENV ${GITLAB_API_URL:-}  # Defaults to {instance_url}/api/v4 if empty
+      scopes: ["read_user", "read_api"]
+    # Webhook configuration (for merge request events)
+    webhook_secret: !ENV ${GITLAB_WEBHOOK_SECRET}
+
+  # Google Plugin (OAuth only)
+  google:
+    enabled: !ENV ${GOOGLE_ENABLED:-true}
+    # OAuth configuration (for user login identity)
+    oauth:
+      client_id: !ENV ${GOOGLE_CLIENT_ID}
+      client_secret: !ENV ${GOOGLE_CLIENT_SECRET}
+      metadata_url: https://accounts.google.com/.well-known/openid-configuration
+      userinfo_url: https://www.googleapis.com/oauth2/v3/userinfo
+
+  # OAuth plugin (manages OAuth client registration)
+  oauth:
+    enabled: true
+
+  # Web server plugin (FastAPI HTTP server)
+  web:
+    enabled: true
+    host: 0.0.0.0
+    port: 8000
+    reload: true
+    workers: 1
+    frontend_url: !ENV ${FRONTEND_URL:-http://localhost:3000}
+    behind_proxy: true
+    # CORS configuration
+    cors:
+      allow_credentials: true
+      allow_methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"]
+      allow_headers: ["content-type", "authorization", "x-requested-with"]
+      additional_dev_origins:
+        - http://localhost:3000
+        - http://127.0.0.1:3000
+    # JWT configuration
+    jwt:
+      secret_key: !ENV ${JWT_SECRET_KEY}
+      algorithm: HS256
+      token_expire_days: 7
+    # Session configuration
+    session:
+      secret_key: !ENV ${JWT_SECRET_KEY}
+      cookie_name: reviewate_session
+      cookie_httponly: true
+      cookie_samesite: lax
+      cookie_secure: true
+      max_age_days: 30
+
+  # FastStream Plugin (Redis message queue)
+  faststream:
+    enabled: true
+    app_name: reviewate-queue
+    graceful_timeout: 30.0
+    log_level: INFO
+    redis:
+      url: !ENV ${REDIS_URL:-redis://localhost:6379}
+      db: !ENV ${REDIS_DB:-0}
+      list_cap_size: 10000
+      auto_offset_reset: latest
+      batch_size: 1
+      polling_interval: 0.1
+      max_retries: 3
+      retry_delay: 1.0
+    # Consumer configuration - monolith mode processes jobs locally
+    consumers:
+      # Job/sync consumers (Redis Streams with consumer groups)
+      - topic: reviewate.review.jobs
+        group_id: reviewate
+        handler: api.routers.queue.consumer:router
+      - topic: reviewate.execution.status
+        group_id: reviewate
+        handler: api.routers.queue.consumer:router
+      # GitHub sync consumers
+      - topic: reviewate.events.github.sync_installation
+        group_id: reviewate
+        handler: api.routers.webhooks.github.consumer:router
+      - topic: reviewate.events.github.sync_repository_prs
+        group_id: reviewate
+        handler: api.routers.webhooks.github.consumer:router
+      - topic: reviewate.events.github.sync_members
+        group_id: reviewate
+        handler: api.routers.webhooks.github.consumer:router
+      # GitLab sync consumers
+      - topic: reviewate.events.gitlab.sync_group
+        group_id: reviewate
+        handler: api.routers.sources.gitlab.consumer:router
+      - topic: reviewate.events.gitlab.sync_group_repositories
+        group_id: reviewate
+        handler: api.routers.sources.gitlab.consumer:router
+      - topic: reviewate.events.gitlab.sync_repository_mrs
+        group_id: reviewate
+        handler: api.routers.sources.gitlab.consumer:router
+      - topic: reviewate.events.gitlab.sync_members
+        group_id: reviewate
+        handler: api.routers.sources.gitlab.consumer:router
+      # Auth sync consumers (sync org memberships on login)
+      - topic: reviewate.events.auth.sync_memberships
+        group_id: reviewate
+        handler: api.routers.auth.consumer:router
+      # SSE event consumers for real-time updates (Pub/Sub, no group_id)
+      - topic: reviewate.events.organizations
+        handler: api.routers.organizations.consumer:router
+      - topic: reviewate.events.repositories
+        handler: api.routers.repositories.consumer:router
+      - topic: reviewate.events.pull_requests
+        handler: api.routers.pull_requests.consumer:router
+
+  # Container Plugin (Docker/K8s execution and watching)
+  # container:
+  #   enabled: true
+  #   backend: docker
+  #   watcher:
+  #     enabled: true
+  #     reconcile_interval: 60
+  #   docker:
+  #     socket: /var/run/docker.sock
+  #     image: reviewate/code-reviewer:local
+  #     network: null
+  #     memory_limit: 2g
+  #     cpu_limit: 2.0
+  #     timeout: 600
+
+  # Container Plugin - Using Kubernetes backend
+  container:
+    enabled: true
+    backend: kubernetes
+    watcher:
+      enabled: true
+      reconcile_interval: 60
+    kubernetes:
+      namespace: !ENV ${KUBE_NAMESPACE:-reviewate}
+      image: reviewate/code-reviewer:1.0.0 # x-release-please-version
+      service_account: !ENV ${KUBE_SERVICE_ACCOUNT:-reviewate}
+      timeout: 600
+      memory_limit: 2Gi
+      memory_request: 1Gi
+      cpu_limit: "2"
+      cpu_request: 500m
+      image_pull_policy: IfNotPresent
+      tmp_size_limit: !ENV ${KUBE_TMP_SIZE_LIMIT:-1Gi}
+      cleanup_jobs: !ENV ${KUBE_CLEANUP_JOBS:-true}
+      run_as_non_root: true
+      run_as_user: 1000
+      run_as_group: 1000

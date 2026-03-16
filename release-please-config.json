@@ -1,0 +1,14 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "generic", "path": "Makefile" },
+        { "type": "generic", "path": "backend/pyproject.toml" },
+        { "type": "generic", "path": "code_reviewer/pyproject.toml" },
+        { "type": "generic", "path": "backend/configs/kubernetes.yaml" },
+        { "type": "generic", "path": "backend/configs/docker.yaml" }
+      ]
+    }
+  }
+}
