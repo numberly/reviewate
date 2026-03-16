@@ -1,0 +1,95 @@
+# Test configuration for Reviewate backend
+# This config is used during pytest runs
+
+app: reviewate-backend-test
+environment: development
+
+# Plugins configuration
+plugins:
+  database:
+    enabled: true
+    url: postgresql://postgres:postgres@localhost:5432/reviewate_dev
+    echo: false
+    pool_size: 5
+    max_overflow: 10
+    # Test encryption key for GitLab PAT storage (AES-256-GCM)
+    encryption_key: "WCG0dN_WKfmNvUBp4oV3jq1IhMY0jNoJCzuf1adYQtY="
+
+  github:
+    enabled: true
+    app:
+      # User-to-server OAuth
+      client_id: test-github-client-id
+      client_secret: test-github-secret
+      authorize_url: https://github.com/login/oauth/authorize
+      token_url: https://github.com/login/oauth/access_token
+      api_base_url: https://api.github.com
+      scopes: ["read:user", "user:email", "read:org"]
+      # Installation authentication
+      app_id: test-app-id
+      private_key_path: /dev/null
+      webhook_secret: test-webhook-secret
+      name: reviewate-test
+
+  gitlab:
+    enabled: true
+    webhook_secret: test-webhook-secret
+    oauth:
+      client_id: test-gitlab-client-id
+      client_secret: test-gitlab-secret
+      instance_url: https://gitlab.com
+      scopes: ["read_user", "read_api"]
+
+  google:
+    enabled: true
+    oauth:
+      client_id: test-google-client-id
+      client_secret: test-google-secret
+      metadata_url: https://accounts.google.com/.well-known/openid-configuration
+      userinfo_url: https://www.googleapis.com/oauth2/v3/userinfo
+
+  oauth:
+    enabled: true
+
+  web:
+    enabled: true
+    host: 0.0.0.0
+    port: 8000
+    reload: false
+    workers: 1
+    skip_server: true
+    frontend_url: http://localhost:3000
+    cors:
+      allow_credentials: true
+      allow_methods: ["*"]
+      allow_headers: ["*"]
+      additional_dev_origins: []
+    jwt:
+      secret_key: test-key
+      algorithm: HS256
+      token_expire_days: 30
+    session:
+      secret_key: test-key
+      cookie_name: reviewate_session
+      cookie_httponly: true
+      cookie_samesite: lax
+      cookie_secure: false
+      max_age_days: 30
+
+  faststream:
+    enabled: false  # Disabled in tests - tests mock get_faststream_broker() directly
+    backend: redis
+    app_name: reviewate-test-queue
+    graceful_timeout: 5.0
+    log_level: INFO
+    redis:
+      url: redis://localhost:6379
+      db: 1
+      list_cap_size: 100
+      auto_offset_reset: latest
+      batch_size: 1
+      polling_interval: 0.1
+      max_retries: 1
+      retry_delay: 0.5
+    # No consumers in tests
+    consumers: []

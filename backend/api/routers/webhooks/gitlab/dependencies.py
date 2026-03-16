@@ -1,0 +1,30 @@
+"""FastAPI dependencies for GitLab webhook verification."""
+
+import hmac
+
+from fastapi import Header, HTTPException
+
+from api.context import get_current_app
+
+
+async def verify_gitlab_webhook(
+    x_gitlab_token: str | None = Header(None, description="GitLab webhook secret token"),
+) -> None:
+    """Verify GitLab webhook: plugin enabled + secret token.
+
+    Raises:
+        HTTPException: 404 if GitLab plugin not configured, 401 if token invalid
+    """
+    app = get_current_app()
+    gitlab_plugin = app.gitlab
+
+    if not gitlab_plugin:
+        raise HTTPException(status_code=404, detail="GitLab integration not configured")
+
+    webhook_secret = gitlab_plugin.config.webhook_secret
+    if webhook_secret:
+        if not x_gitlab_token:
+            raise HTTPException(status_code=401, detail="Missing X-Gitlab-Token header")
+
+        if not hmac.compare_digest(x_gitlab_token, webhook_secret):
+            raise HTTPException(status_code=401, detail="Invalid webhook token")

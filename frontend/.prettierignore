@@ -1,0 +1,14 @@
+# Build outputs
+.nuxt
+.output
+dist
+.nitro
+.cache
+
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Misc
+.DS_Store
+*.log
