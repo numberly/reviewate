@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/numberly/reviewate/compare/v1.0.0...v1.1.0) (2026-03-16)
+
+
+### Features
+
+* init reviewate ([48faf96](https://github.com/numberly/reviewate/commit/48faf96450401335a7401da2d4933502d605fce1))
+
 ## 1.0.0 (2026-03-16)
 
 Initial release under [numberly/reviewate](https://github.com/numberly/reviewate).
