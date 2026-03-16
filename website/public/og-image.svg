@@ -1,0 +1,7 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#FDFBF7"/>
+  <rect x="0" y="0" width="1200" height="4" fill="#06483C"/>
+  <text x="600" y="280" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="700" fill="#1C1A18">Reviewate</text>
+  <text x="600" y="350" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#737068">AI Code Reviews That Find Real Bugs</text>
+  <text x="600" y="420" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#9E9B96">Open Source &bull; Multi-Agent Pipeline &bull; GitHub &amp; GitLab</text>
+</svg>

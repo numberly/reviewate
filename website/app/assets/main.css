@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+  /* Brand colors - Teal green (matching logo #06483C) */
+  --color-brand-50: rgb(236, 246, 244);
+  --color-brand-100: rgb(210, 227, 228);
+  --color-brand-200: rgb(167, 204, 200);
+  --color-brand-300: rgb(115, 173, 166);
+  --color-brand-400: rgb(66, 138, 128);
+  --color-brand-500: rgb(6, 72, 60);
+  --color-brand-600: rgb(5, 61, 51);
+  --color-brand-700: rgb(4, 50, 42);
+  --color-brand-800: rgb(3, 38, 32);
+  --color-brand-900: rgb(2, 27, 22);
+  --color-brand-950: rgb(1, 18, 15);
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Warm neutral palette — @theme inline so Tailwind utilities (text-neutral-900 etc.) work */
+@theme inline {
+  --color-neutral-50: rgb(247, 245, 241);
+  --color-neutral-100: rgb(240, 238, 234);
+  --color-neutral-200: rgb(228, 225, 220);
+  --color-neutral-300: rgb(208, 205, 200);
+  --color-neutral-400: rgb(158, 155, 150);
+  --color-neutral-500: rgb(115, 112, 108);
+  --color-neutral-600: rgb(82, 80, 76);
+  --color-neutral-700: rgb(55, 53, 50);
+  --color-neutral-800: rgb(38, 36, 34);
+  --color-neutral-900: rgb(28, 26, 24);
+  --color-neutral-950: rgb(18, 17, 16);
+}
+
+/* Force all Nuxt UI semantic variables to our warm neutral palette.
+   Unlayered :root always beats @layer theme — fixes Firefox where the
+   var(--ui-color-neutral-*) indirection in @layer theme doesn't resolve. */
+:root {
+  /* Neutral color inputs for Nuxt UI runtime */
+  --ui-color-neutral-50: rgb(247, 245, 241);
+  --ui-color-neutral-100: rgb(240, 238, 234);
+  --ui-color-neutral-200: rgb(228, 225, 220);
+  --ui-color-neutral-300: rgb(208, 205, 200);
+  --ui-color-neutral-400: rgb(158, 155, 150);
+  --ui-color-neutral-500: rgb(115, 112, 108);
+  --ui-color-neutral-600: rgb(82, 80, 76);
+  --ui-color-neutral-700: rgb(55, 53, 50);
+  --ui-color-neutral-800: rgb(38, 36, 34);
+  --ui-color-neutral-900: rgb(28, 26, 24);
+  --ui-color-neutral-950: rgb(18, 17, 16);
+
+  /* Semantic text — hardcoded, no var() chain to break */
+  --ui-text-dimmed: rgb(158, 155, 150);
+  --ui-text-muted: rgb(115, 112, 108);
+  --ui-text-toned: rgb(82, 80, 76);
+  --ui-text: rgb(55, 53, 50);
+  --ui-text-highlighted: rgb(28, 26, 24);
+  --ui-text-inverted: #fff;
+
+  /* Semantic backgrounds */
+  --ui-bg: rgb(253, 251, 247);
+  --ui-bg-muted: rgb(247, 245, 241);
+  --ui-bg-elevated: rgb(240, 238, 234);
+  --ui-bg-accented: rgb(228, 225, 220);
+  --ui-bg-inverted: rgb(28, 26, 24);
+
+  /* Semantic borders */
+  --ui-border: rgb(228, 225, 220);
+  --ui-border-muted: rgb(240, 238, 234);
+  --ui-border-accented: rgb(208, 205, 200);
+  --ui-border-inverted: rgb(28, 26, 24);
+
+  --ui-primary: var(--color-brand-500);
+  --ui-radius: 0.5rem;
+
+  --color-neutral-0: rgb(253, 251, 247);
+}
+
+.dark {
+  /* Neutral color inputs for Nuxt UI runtime (reversed warm palette) */
+  --ui-color-neutral-50: rgb(18, 17, 16);
+  --ui-color-neutral-100: rgb(28, 26, 24);
+  --ui-color-neutral-200: rgb(38, 36, 34);
+  --ui-color-neutral-300: rgb(55, 53, 50);
+  --ui-color-neutral-400: rgb(115, 112, 108);
+  --ui-color-neutral-500: rgb(158, 155, 150);
+  --ui-color-neutral-600: rgb(208, 205, 200);
+  --ui-color-neutral-700: rgb(228, 225, 220);
+  --ui-color-neutral-800: rgb(240, 238, 234);
+  --ui-color-neutral-900: rgb(247, 245, 241);
+  --ui-color-neutral-950: rgb(253, 251, 247);
+
+  /* Semantic text — dark equivalents */
+  --ui-text-dimmed: rgb(115, 112, 108);
+  --ui-text-muted: rgb(158, 155, 150);
+  --ui-text-toned: rgb(208, 205, 200);
+  --ui-text: rgb(228, 225, 220);
+  --ui-text-highlighted: rgb(247, 245, 241);
+  --ui-text-inverted: rgb(18, 17, 16);
+
+  /* Semantic backgrounds */
+  --ui-bg: rgb(18, 17, 16);
+  --ui-bg-muted: rgb(28, 26, 24);
+  --ui-bg-elevated: rgb(38, 36, 34);
+  --ui-bg-accented: rgb(55, 53, 50);
+  --ui-bg-inverted: rgb(247, 245, 241);
+
+  /* Semantic borders */
+  --ui-border: rgb(55, 53, 50);
+  --ui-border-muted: rgb(38, 36, 34);
+  --ui-border-accented: rgb(82, 80, 76);
+  --ui-border-inverted: rgb(247, 245, 241);
+
+  --ui-primary: var(--color-brand-400);
+
+  --color-neutral-0: rgb(18, 17, 16);
+}
+
+/* Dark grid background */
+.dark .grid-bg {
+  background-image:
+    linear-gradient(to right, rgb(55 53 50 / 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(55 53 50 / 0.4) 1px, transparent 1px);
+}
+
+/* Dark prose overrides */
+.dark .prose {
+  --tw-prose-body: rgb(208, 205, 200);
+  --tw-prose-headings: rgb(247, 245, 241);
+  --tw-prose-links: rgb(66, 138, 128);
+  --tw-prose-bold: rgb(247, 245, 241);
+  --tw-prose-code: rgb(247, 245, 241);
+  --tw-prose-pre-bg: rgb(28, 26, 24);
+  --tw-prose-pre-code: rgb(228, 225, 220);
+  --tw-prose-quotes: rgb(228, 225, 220);
+  --tw-prose-quote-borders: rgb(55, 53, 50);
+  --tw-prose-counters: rgb(158, 155, 150);
+  --tw-prose-bullets: rgb(115, 112, 108);
+  --tw-prose-hr: rgb(55, 53, 50);
+  --tw-prose-th-borders: rgb(55, 53, 50);
+  --tw-prose-td-borders: rgb(38, 36, 34);
+}
+
+body {
+  background-color: var(--color-neutral-0);
+  color: var(--ui-text-highlighted);
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.011em;
+}
+
+/* Subtle grid background */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgb(228 225 220 / 0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(228 225 220 / 0.5) 1px, transparent 1px);
+  background-size: 80px 80px;
+}

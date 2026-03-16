@@ -1,0 +1,20 @@
+# Default owners for the entire repository
+* @adamsaimi
+
+# Backend
+/backend/ @adamsaimi
+
+# Frontend
+/frontend/ @adamsaimi
+
+# Code Reviewer (AI engine)
+/code_reviewer/ @adamsaimi
+
+# Website
+/website/ @adamsaimi
+
+# Infrastructure & CI
+/docker-compose.yml @adamsaimi
+/.github/ @adamsaimi
+/helm/ @adamsaimi
+/Makefile @adamsaimi

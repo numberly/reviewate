@@ -1,0 +1,330 @@
+{
+  "common": {
+    "appName": "Reviewate",
+    "review": "Réviser",
+    "manage": "Gérer",
+    "pro": "Pro",
+    "showing": "Affichage {start}-{end} sur {total}",
+    "perPage": "par page",
+    "dismiss": "Fermer",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "retry": "Réessayer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "add": "Ajouter",
+    "remove": "Supprimer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "view": "Voir",
+    "back": "Retour",
+    "search": "Rechercher...",
+    "cannotBeUndone": "Cette action est irréversible.",
+    "noResults": "Aucun résultat trouvé",
+    "noResultsDescription": "Essayez de modifier vos termes de recherche."
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "pullRequests": "Pull Requests",
+    "repositories": "Dépôts",
+    "analytics": "Analyses",
+    "teams": "Équipes",
+    "settings": "Paramètres",
+    "logOut": "Déconnexion",
+    "organizations": "Organisations"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue, voici votre aperçu pour aujourd'hui.",
+    "viewReports": "Voir les rapports"
+  },
+  "stats": {
+    "activeRepos": "Dépôts actifs",
+    "avgReviewTime": "Temps moyen de révision",
+    "prsReviewedThisWeek": "PRs révisées cette semaine",
+    "vsLastWeek": "vs semaine dernière"
+  },
+  "organizations": {
+    "title": "Organisations",
+    "subtitle": "Gérez vos organisations et sources connectées",
+    "noOrganizations": "Aucune organisation",
+    "noOrganizationsDescription": "Connectez votre organisation GitHub ou GitLab pour commencer à réviser les pull requests.",
+    "addFirst": "Ajouter votre première organisation",
+    "allOrganizations": "Toutes les organisations",
+    "repos": "{count} dépôts",
+    "members": "{count} membres",
+    "addFromGithub": "Ajouter depuis GitHub",
+    "addFromGitlab": "Ajouter depuis GitLab",
+    "sync": "Sync",
+    "syncGithub": "Actualiser les membres depuis les organisations GitHub",
+    "syncGitlab": "Actualiser les membres depuis les groupes GitLab",
+    "provider": "Fournisseur",
+    "createdAt": "Ajouté le",
+    "viewRepositories": "Voir les dépôts",
+    "installGithubApp": "Installer l'app GitHub",
+    "addGitlabToken": "Ajouter un token GitLab",
+    "gitlabTokenTitle": "Ajouter une source GitLab",
+    "gitlabTokenDescription": "Entrez votre Personal Access Token GitLab pour connecter un groupe ou un projet.",
+    "gitlabTokenPlaceholder": "glpat-xxxxxxxxxxxx",
+    "gitlabTokenLabel": "Access Token",
+    "gitlabUrlLabel": "URL GitLab",
+    "gitlabUrlPlaceholder": "https://gitlab.com",
+    "gitlabAdded": "Source GitLab ajoutée avec succès",
+    "gitlabFailed": "Échec de l'ajout de la source GitLab",
+    "deleted": "Organisation supprimée avec succès",
+    "selectOrganization": "Sélectionnez une organisation",
+    "selectOrganizationDescription": "Choisissez une organisation dans la liste pour voir et gérer ses paramètres.",
+    "deleteConfirmTitle": "Supprimer l'organisation",
+    "deleteConfirmMessage": "Êtes-vous sûr de vouloir supprimer cette organisation ? Cela supprimera tous les dépôts et paramètres associés.",
+    "deleteConfirmWarning": "Tous les dépôts et leur historique de révision seront définitivement supprimés.",
+    "tabs": {
+      "general": "Général",
+      "repositories": "Dépôts",
+      "team": "Équipe"
+    },
+    "settings": {
+      "general": "Paramètres généraux",
+      "displayName": "Nom d'affichage",
+      "externalId": "ID externe",
+      "reviewSettings": "Paramètres de révision",
+      "automaticReviewTrigger": "Déclencheur de révision automatique",
+      "automaticReviewTriggerDescription": "Quand déclencher automatiquement les révisions de code",
+      "triggerNone": "Désactivé",
+      "triggerCreation": "À la création de la PR",
+      "triggerCommit": "Sur les nouveaux commits",
+      "automaticSummaryTrigger": "Déclencheur de résumé automatique",
+      "automaticSummaryTriggerDescription": "Quand déclencher automatiquement les résumés de PR",
+      "triggerLabel": "Sur label (reviewate)",
+      "triggerLabelSummarate": "Sur label (summarate)",
+      "dangerZone": "Zone de danger",
+      "removeOrganization": "Supprimer l'organisation",
+      "removeOrganizationDescription": "Cela supprimera l'organisation et toutes ses données de Reviewate.",
+      "savingSettings": "Enregistrement...",
+      "settingsSaved": "Paramètres enregistrés",
+      "adminRequired": "Seuls les administrateurs de l'organisation peuvent modifier les paramètres",
+      "saveFailed": "Échec de l'enregistrement des paramètres. Veuillez réessayer."
+    },
+    "repositories": {
+      "title": "Dépôts",
+      "enabled": "Activé",
+      "disabled": "Désactivé",
+      "noRepositories": "Aucun dépôt",
+      "noRepositoriesDescription": "Cette organisation n'a pas encore de dépôts.",
+      "information": "Informations du dépôt",
+      "name": "Nom",
+      "platform": "Plateforme",
+      "url": "URL",
+      "externalId": "ID externe",
+      "settingsTitle": "Paramètres du dépôt",
+      "settingsDescription": "Remplacer les paramètres par défaut de l'organisation pour ce dépôt",
+      "inheritFromOrg": "Hériter de l'organisation",
+      "resetToDefaults": "Réinitialiser aux paramètres de l'organisation",
+      "resetToDefaultsDescription": "Supprimer tous les paramètres spécifiques au dépôt et hériter de l'organisation",
+      "resetToDefaultsButton": "Réinitialiser",
+      "removeRepository": "Supprimer le dépôt",
+      "removeRepositoryDescription": "Cela supprimera le dépôt et ses paramètres.",
+      "deleteConfirmTitle": "Supprimer le dépôt",
+      "deleteConfirmMessage": "Êtes-vous sûr de vouloir supprimer ce dépôt ? Cela supprimera tous les paramètres et l'historique de révision associés.",
+      "deleted": "Dépôt supprimé avec succès"
+    },
+    "team": {
+      "title": "Membres de l'équipe",
+      "noMembers": "Aucun membre",
+      "noMembersDescription": "Cette organisation n'a pas encore de membres synchronisés.",
+      "enabled": "Révisions activées",
+      "disabled": "Révisions désactivées",
+      "admin": "Admin",
+      "member": "Membre",
+      "linkedAccount": "Lié",
+      "settingsTitle": "Paramètres du membre",
+      "settingsDescription": "Configurez comment Reviewate interagit avec les pull requests de ce membre.",
+      "reviewateEnabled": "Activer Reviewate",
+      "reviewateEnabledDescription": "Lorsqu'activé, Reviewate révisera automatiquement les pull requests de ce membre.",
+      "adminOnlyMessage": "Seuls les administrateurs de l'organisation peuvent modifier les paramètres des membres.",
+      "memberInfo": "Informations du membre",
+      "accountStatus": "Statut du compte",
+      "linked": "Lié à Reviewate",
+      "notLinked": "Non lié",
+      "role": "Rôle"
+    },
+    "linkedRepos": {
+      "title": "Dépôts liés",
+      "description": "Dépôts additionnels récupérés lors des révisions pour le contexte (bibliothèques partagées, packages internes).",
+      "orgDescription": "Ces dépôts sont inclus dans TOUTES les révisions de cette organisation.",
+      "repoDescription": "Ces dépôts sont inclus EN PLUS des dépôts liés au niveau de l'organisation.",
+      "noLinkedRepos": "Aucun dépôt lié",
+      "noLinkedReposDescription": "Liez des dépôts externes pour donner au réviseur de code le contexte de bases de code connexes.",
+      "addLinkedRepo": "Lier un dépôt",
+      "urlLabel": "URL du dépôt",
+      "urlPlaceholder": "https://github.com/owner/repo",
+      "branchLabel": "Branche",
+      "branchPlaceholder": "main",
+      "invalidUrl": "Entrez une URL de dépôt GitHub ou GitLab valide",
+      "adding": "Liaison en cours...",
+      "added": "Dépôt lié avec succès",
+      "addFailed": "Échec de la liaison du dépôt",
+      "removed": "Dépôt lié supprimé",
+      "removeFailed": "Échec de la suppression du dépôt lié",
+      "github": "GitHub",
+      "gitlab": "GitLab"
+    }
+  },
+  "pullRequests": {
+    "title": "Pull Requests",
+    "searchPlaceholder": "Rechercher des PRs...",
+    "reviewDisabledForAuthor": "Les révisions sont désactivées pour {author}",
+    "onlyAuthorCanReview": "Seul l'auteur de la PR peut déclencher une révision",
+    "columns": {
+      "title": "Titre",
+      "repo": "Dépôt",
+      "status": "Statut",
+      "date": "Date"
+    },
+    "executions":{
+      "reviewing": "En cours",
+      "completed": "Terminé",
+      "failed": "Échoué",
+      "cancelled": "Annulé",
+      "need_review": "Aucune review"
+    }
+  },
+  "filters": {
+    "allStatuses": "Tous les statuts",
+    "pending": "En attente",
+    "approved": "Approuvée",
+    "rejected": "Rejetée",
+    "allTime": "Tout le temps",
+    "today": "Aujourd'hui",
+    "last7Days": "7 derniers jours",
+    "last30Days": "30 derniers jours",
+    "last90Days": "90 derniers jours",
+    "myPRs": "Mes PRs",
+    "allPRs": "Toutes les PRs"
+  },
+  "accessibility": {
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "collapseSidebar": "Réduire la barre latérale",
+    "expandSidebar": "Étendre la barre latérale"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Gérez votre compte et vos services connectés",
+    "tabs": {
+      "connectedAccounts": "Comptes connectés",
+      "profile": "Profil"
+    },
+    "accounts": {
+      "title": "Comptes connectés",
+      "connected": "Connecté",
+      "notConnected": "Non connecté",
+      "connect": "Connecter",
+      "disconnect": "Déconnecter",
+      "disconnected": "Compte {provider} déconnecté",
+      "linked": "Compte {provider} connecté avec succès",
+      "disconnectFailed": "Échec de la déconnexion du compte. Veuillez réessayer.",
+      "cannotDisconnectLast": "Vous ne pouvez pas déconnecter votre dernier compte connecté.",
+      "lastAccountWarning": "Vous devez avoir au moins un compte connecté pour vous connecter.",
+      "alreadyLinked": "Ce fournisseur est déjà connecté à votre compte.",
+      "accountInUse": "Ce compte est déjà lié à un autre utilisateur.",
+      "invalidProvider": "Fournisseur invalide spécifié."
+    },
+    "profile": {
+      "title": "Profil",
+      "email": "Email",
+      "emailDescription": "Votre adresse email pour les notifications et la communication",
+      "displayName": "Nom d'affichage",
+      "displayNameDescription": "Dérivé de vos comptes connectés",
+      "saved": "Profil enregistré avec succès",
+      "saveFailed": "Échec de l'enregistrement du profil. Veuillez réessayer."
+    },
+    "appearance": "Apparence",
+    "theme": "Thème",
+    "darkMode": "Mode sombre",
+    "darkModeDescription": "Basculer entre le thème clair et sombre",
+    "language": "Langue",
+    "languageDescription": "Choisissez votre langue préférée",
+    "account": "Compte",
+    "viewProfile": "Voir le profil",
+    "signOut": "Se déconnecter"
+  },
+  "auth": {
+    "login": {
+      "title": "Bon retour",
+      "subtitle": "Connectez-vous avec votre compte pour continuer"
+    },
+    "continueWithGithub": "Continuer avec GitHub",
+    "continueWithGitlab": "Continuer avec GitLab",
+    "continueWithGoogle": "Continuer avec Google",
+    "redirecting": "Redirection...",
+    "loginError": "Échec de la connexion",
+    "termsNotice": "En continuant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité."
+  },
+  "tour": {
+    "next": "Suivant",
+    "prev": "Retour",
+    "done": "Terminé",
+    "progress": "{current} sur {total}",
+    "replay": "Relancer le tour",
+    "mobileNotSupported": "Le tour est uniquement disponible sur ordinateur",
+    "welcome": {
+      "title": "Bienvenue sur Reviewate !",
+      "description": "Laissez-nous vous guider à travers les fonctionnalités clés. Cela ne prendra qu'une minute."
+    },
+    "reviewButton": {
+      "title": "Réviser une Pull Request",
+      "description": "Cliquez sur le bouton Réviser pour lancer une revue de code assistée par IA sur n'importe quelle pull request."
+    },
+    "prSwitch": {
+      "title": "Filtrer vos PRs",
+      "description": "Basculez entre vos propres pull requests et toutes les pull requests de vos organisations."
+    },
+    "orgSidebar": {
+      "title": "Vos organisations",
+      "description": "Filtrez le tableau de bord par organisation, ou cliquez sur l'icône paramètres pour les gérer."
+    },
+    "addOrg": {
+      "title": "Connectez vos dépôts",
+      "description": "Ajoutez une organisation depuis GitHub ou GitLab pour commencer à réviser les pull requests. Reviewate synchronise vos dépôts et votre équipe automatiquement."
+    },
+    "generalSettings": {
+      "title": "Déclencheurs de révision",
+      "description": "Configurez quand Reviewate déclenche automatiquement les révisions — à la création de PR, sur les nouveaux commits, ou par label."
+    },
+    "linkedRepos": {
+      "title": "Dépôts liés",
+      "description": "Liez des dépôts externes pour que Reviewate puisse accéder au contexte du code pendant les révisions — par exemple, une bibliothèque partagée ou une dépendance monorepo."
+    },
+    "repositoriesTab": {
+      "title": "Paramètres des dépôts",
+      "description": "Chaque dépôt peut remplacer les paramètres par défaut de l'organisation. Cliquez ici pour gérer les paramètres par dépôt."
+    },
+    "teamTab": {
+      "title": "Gestion de l'équipe",
+      "description": "Consultez les membres de l'équipe et contrôlez qui reçoit les révisions automatiques. C'est la fin du tour !"
+    }
+  },
+  "errors": {
+    "types": {
+      "network_error": "Impossible de se connecter à la plateforme d'hébergement de code. Vérifiez votre connexion réseau et réessayez.",
+      "authentication_failed": "L'authentification a échoué. Le jeton d'accès a peut-être expiré.",
+      "not_found": "Le dépôt ou la pull request n'a pas été trouvé.",
+      "request_failed": "La requête vers la plateforme d'hébergement de code a échoué. Veuillez réessayer.",
+      "invalid_response": "Une réponse inattendue a été reçue de la plateforme.",
+      "explorer_error": "Impossible de télécharger et d'analyser le code source. Veuillez réessayer.",
+      "validation_error": "Le modèle IA a retourné une réponse invalide. Veuillez réessayer.",
+      "interrupted": "La révision a été interrompue avant d'être terminée.",
+      "timeout": "La révision a expiré. La pull request est peut-être trop volumineuse.",
+      "container_error": "L'environnement de révision a rencontré un problème. Veuillez réessayer.",
+      "internal_error": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
+      "unknown": "La révision a échoué. Veuillez réessayer."
+    }
+  },
+  "validation": {
+    "required": "Ce champ est requis",
+    "invalidUrl": "Entrez une URL valide",
+    "invalidEmail": "Entrez une adresse email valide",
+    "minLength": "Doit contenir au moins {min} caractères",
+    "invalidToken": "Entrez un token d'accès valide"
+  }
+}

@@ -1,0 +1,206 @@
+# Reviewate - Docker Compose
+#
+# Profiles:
+#   all:  Full stack - postgres, redis, migrate, backend, frontend
+#   app:  App only - migrate, backend, frontend (bring your own postgres/redis)
+#   test: Database only - postgres, migrate (for local development/tests)
+#
+# Usage:
+#   1. cp .env.example .env
+#   2. Edit .env with your credentials
+#   3. docker compose --profile all up -d
+#
+# Profiles:
+#   docker compose --profile all up -d    # Everything (recommended)
+#   docker compose --profile app up -d    # App only (external postgres/redis)
+#   docker compose --profile test up -d   # Database only (for tests)
+
+services:
+  # ==================== Database ====================
+  postgres:
+    profiles: ["test", "all"]
+    image: postgres:16-alpine
+    container_name: reviewate-postgres
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - reviewate-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==================== Docker Socket Proxy ====================
+  # Secure proxy for Docker socket - restricts API to necessary endpoints only
+  # See: https://github.com/Tecnativa/docker-socket-proxy
+  docker-proxy:
+    profiles: ["test", "app", "all"]
+    image: tecnativa/docker-socket-proxy:v0.4.2
+    container_name: reviewate-docker-proxy
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:2375:2375"
+    environment:
+      CONTAINERS: 1  # Container operations (create, start, stop, logs)
+      IMAGES: 1      # Image operations (pull)
+      NETWORKS: 1    # Network operations (connect)
+      POST: 1        # Allow POST requests
+      EVENTS: 1      # Event streaming (for watcher)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - reviewate-network
+
+  # ==================== Queue ====================
+  redis:
+    profiles: ["test", "all"]
+    image: redis:7-alpine
+    container_name: reviewate-redis
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - reviewate-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==================== Database UI (dev only) ====================
+  pgweb:
+    profiles: ["test"]
+    image: sosedoff/pgweb
+    container_name: reviewate-pgweb
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      PGWEB_DATABASE_URL: ${DATABASE_URL}?sslmode=disable
+    networks:
+      - reviewate-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ==================== Database Migrations ====================
+  migrate:
+    profiles: ["test", "app", "all"]
+    image: reviewate/backend:${VERSION:-latest}
+    build:
+      context: ./backend
+    container_name: reviewate-migrate
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REVIEWATE_CONFIG: /app/configs/docker.yaml
+    command: ["alembic", "upgrade", "head"]
+    networks:
+      - reviewate-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  # ==================== Backend API ====================
+  backend:
+    profiles: ["app", "all"]
+    image: reviewate/backend:${VERSION:-latest}
+    build:
+      context: ./backend
+    container_name: reviewate-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      REVIEWATE_CONFIG: ${REVIEWATE_CONFIG:-/app/configs/docker.yaml}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      GITHUB_APP_ID: ${GITHUB_APP_ID}
+      GITHUB_WEBHOOK_SECRET: ${GITHUB_WEBHOOK_SECRET}
+      GITHUB_APP_NAME: ${GITHUB_APP_NAME}
+      GITLAB_CLIENT_ID: ${GITLAB_CLIENT_ID}
+      GITLAB_CLIENT_SECRET: ${GITLAB_CLIENT_SECRET}
+      GITLAB_INSTANCE_URL: ${GITLAB_INSTANCE_URL:-https://gitlab.com}
+      GITLAB_WEBHOOK_SECRET: ${GITLAB_WEBHOOK_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      FRONTEND_URL: ${FRONTEND_URL}
+      COOKIE_DOMAIN: ${COOKIE_DOMAIN}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      REVIEW_AGENT_MODEL: ${REVIEW_AGENT_MODEL:-}
+      REVIEW_AGENT_PROVIDER: ${REVIEW_AGENT_PROVIDER:-}
+      UTILITY_AGENT_MODEL: ${UTILITY_AGENT_MODEL:-}
+      UTILITY_AGENT_PROVIDER: ${UTILITY_AGENT_PROVIDER:-}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      GITHUB_APP_PRIVATE_KEY_PATH: /etc/reviewate-certs/github-app-private-key.pem
+    volumes:
+      - ${GITHUB_APP_PRIVATE_KEY_PATH:-./certs/github-app-private-key.pem}:/etc/reviewate-certs/github-app-private-key.pem:ro
+    networks:
+      - reviewate-network
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      docker-proxy:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ==================== Frontend ====================
+  frontend:
+    profiles: ["app", "all"]
+    image: reviewate/frontend:${VERSION:-latest}
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    container_name: reviewate-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      NUXT_PUBLIC_API_BASE_URL: ${NUXT_PUBLIC_API_BASE_URL}
+      NUXT_PUBLIC_API_OPENAPI_URL: ${NUXT_PUBLIC_API_OPENAPI_URL}
+      NUXT_PUBLIC_SENTRY_DSN: ${SENTRY_DSN:-}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      NODE_ENV: ${NODE_ENV:-production}
+    networks:
+      - reviewate-network
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  reviewate-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
