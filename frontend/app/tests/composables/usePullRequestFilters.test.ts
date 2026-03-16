@@ -12,17 +12,20 @@ import { usePullRequestFilters } from '~/composables/usePullRequestFilters'
 import type { UIPullRequest } from '~/types/pullRequest'
 
 // Mock vue-router
-vi.mock('vue-router', () => ({
+vi.mock('vue-router', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('vue-router')>()),
   useRoute: () => ({
     query: {},
   }),
   useRouter: () => ({
     replace: vi.fn(),
+    afterEach: vi.fn(),
   }),
 }))
 
 // Mock VueUse
-vi.mock('@vueuse/core', () => ({
+vi.mock('@vueuse/core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@vueuse/core')>()),
   refDebounced: (ref: { value: string }) => ref,
   useLocalStorage: (_key: string, defaultValue: unknown) => ({ value: defaultValue }),
 }))
