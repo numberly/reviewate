@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "reviewate"
-version = "1.0.0" # x-release-please-version
+version = "1.0.1" # x-release-please-version
 description = "AI-powered code reviewer for GitHub and GitLab"
 readme = "README.md"
 authors = [{ name = "Adam Saimi" }]

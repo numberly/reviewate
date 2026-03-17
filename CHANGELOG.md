@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/numberly/reviewate/compare/v1.0.0...v1.0.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* use --filter for openapi-ts in generate-types ([#20](https://github.com/numberly/reviewate/issues/20)) ([6b1f0f1](https://github.com/numberly/reviewate/commit/6b1f0f1a300ec998d403fa48396044c243009c75))
+
 ## 1.0.0 (2026-03-16)
 
 Initial release under [numberly/reviewate](https://github.com/numberly/reviewate).
