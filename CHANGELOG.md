@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/numberly/reviewate/compare/v1.0.0...v1.1.0) (2026-03-17)
+
+
+### Features
+
+* initial release ([77730b2](https://github.com/numberly/reviewate/commit/77730b2fa39eaaae1ad51e65a933f85f913b5e3c))
+
+
+### Bug Fixes
+
+* bump dep ([3b1159b](https://github.com/numberly/reviewate/commit/3b1159ba30a181cb02e34b8a53e9598e2eeced8d))
+* resolve dependabot security alerts via pnpm update and overrides ([#15](https://github.com/numberly/reviewate/issues/15)) ([335215a](https://github.com/numberly/reviewate/commit/335215a68e40a7d9f660dcc18e9cf35140d67db2))
+
 ## 1.0.0 (2026-03-16)
 
 Initial release under [numberly/reviewate](https://github.com/numberly/reviewate).
