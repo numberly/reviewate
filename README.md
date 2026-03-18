@@ -23,7 +23,8 @@ Reviewate is an AI agent that reviews your pull requests. Built on the [Claude A
 ## Quick Start
 
 ```bash
-pip install reviewate
+uv tool install reviewate  # or: pip install reviewate
+# requires python >=3.13
 reviewate https://github.com/org/repo/pull/122
 ```
 
