@@ -9,13 +9,13 @@ description = "AI-powered code reviewer for GitHub and GitLab"
 readme = "README.md"
 authors = [{ name = "Adam Saimi" }]
 license = "AGPL-3.0"
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 keywords = ["code-review", "ai", "llm", "github", "gitlab", "claude"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Quality Assurance",
 ]
 dependencies = [
@@ -64,7 +64,7 @@ dev = [
 
 [tool.ruff]
 line-length = 100
-target-version = "py314"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = [
@@ -85,7 +85,7 @@ quote-style = "double"
 indent-style = "space"
 
 [tool.mypy]
-python_version = "3.14"
+python_version = "3.13"
 strict = true
 warn_return_any = true
 warn_unused_configs = true
