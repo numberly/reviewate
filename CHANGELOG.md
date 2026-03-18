@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/numberly/reviewate/compare/v1.0.0...v1.0.1) (2026-03-18)
+
+
+### Bug Fixes
+
+* python version now support 3.13 for cli ([#25](https://github.com/numberly/reviewate/issues/25)) ([4e18695](https://github.com/numberly/reviewate/commit/4e186950c8aa8e6042b8d2bdf096b3c7a8b1e394))
+
 ## 1.0.0 (2026-03-16)
 
 Initial release under [numberly/reviewate](https://github.com/numberly/reviewate).

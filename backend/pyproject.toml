@@ -1,6 +1,6 @@
 [project]
 name = "reviewate"
-version = "1.0.0" # x-release-please-version
+version = "1.0.1" # x-release-please-version
 description = "An open-source AI-powered code review system using multi-agent LLM workflows"
 authors = [{ name = "Reviewate Contributors" }]
 readme = "README.md"
