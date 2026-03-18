@@ -192,7 +192,7 @@ plugins:
       reconcile_interval: 60
     docker:
       socket: !ENV ${DOCKER_HOST:-tcp://docker-proxy:2375}
-      image: reviewate/code-reviewer:1.0.0 # x-release-please-version
+      image: reviewate/code-reviewer:1.0.1 # x-release-please-version
       network: reviewate_reviewate-network
       memory_limit: 2g
       cpu_limit: 2.0
