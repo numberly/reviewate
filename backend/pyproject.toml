@@ -66,7 +66,7 @@ kafka = ["kafka-python>=2.0.2"]
 # Development Tools
 dev = [
     # Testing
-    "pytest>=8.3.0",
+    "pytest>=9.0.3",
     "pytest-asyncio>=0.24.0",
     "pytest-cov>=5.0.0",
     "pytest-mock>=3.14.0",
@@ -236,7 +236,7 @@ exclude_lines = [
 dev = [
     "faker>=37.12.0",
     "polyfactory>=2.22.3",
-    "pytest>=8.4.2",
+    "pytest>=9.0.3",
     "pytest-asyncio>=1.2.0",
     "pytest-cov>=7.0.0",
     "pytest-mock>=3.15.1",
