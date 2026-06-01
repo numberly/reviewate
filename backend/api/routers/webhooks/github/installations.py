@@ -23,6 +23,7 @@ from api.sse.publishers import (
     publish_organization_event,
     publish_repository_event,
 )
+from api.routers.webhooks.github.schemas import GitHubSyncRepositoryPRsMessage
 
 from ..utils import WebhookResponse
 from .schemas import (
@@ -307,6 +308,24 @@ async def handle_repositories_added(
             )
         except Exception as e:
             logger.error(f"Failed to publish repository SSE event: {e}", exc_info=True)
+
+        # Queue PR sync for the newly added repository
+        try:
+            broker = get_faststream_broker()
+            sync_message = GitHubSyncRepositoryPRsMessage(
+                repository_id=str(repository.id),
+                installation_id=installation_id,
+                owner=repo_info.get("owner", {}).get("login", ""),
+                repo_name=repo_info["name"],
+            )
+            await broker.publish(
+                sync_message,
+                stream="reviewate.events.github.sync_repository_prs",
+                maxlen=STREAM_MAXLEN,
+            )
+            logger.debug(f"Queued PR sync for newly added repository {repo_info['name']}")
+        except Exception as e:
+            logger.error(f"Failed to queue PR sync for {repo_info['name']}: {e}")
 
     return WebhookResponse(
         message=f"Added {added_count} repositories to organization {org.name}",
